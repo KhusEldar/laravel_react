@@ -1,9 +1,9 @@
 import React from "react"
 
 const First = () => {
-    
+
     return (
-        <div>
+        <div className={`bg-green-500`}>
             Hello
         </div>
     )

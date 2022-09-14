@@ -1,21 +1,12 @@
+require('./bootstrap');
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes React and other helpers. It's a great starting point while
- * building robust, powerful web applications using React + Laravel.
- */
- require('./bootstrap');
-
- import axios, { AxiosError } from 'axios';
- import React, { useEffect } from 'react';
- import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Index } from './'
-import { First, Login } from './Pages';
+import '../css/app.css'
 
  function Example() {
-    
-    
 
      return (
         <React.StrictMode>
