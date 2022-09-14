@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 /*
@@ -23,4 +22,5 @@ Route::post('register', [AuthController::class, 'signup']);
      
 Route::middleware('auth:sanctum')->group( function () {
     Route::resource('post', PostController::class);
+    Route::resource('user', UserController::class);
 });

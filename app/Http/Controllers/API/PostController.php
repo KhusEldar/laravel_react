@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\API\BaseController;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class PostController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Post::paginate();
+        return sendResponse(Post::paginate());
     }
 
     /**
@@ -22,10 +23,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+//    public function create()
+//    {
+//        //
+//    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +37,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        return Post::create($data);
+        return sendResponse(Post::create($data));
     }
 
     /**
@@ -47,7 +48,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return $post;
+        return sendResponse($post);
     }
 
     /**
@@ -56,10 +57,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
-    {
-        //
-    }
+//    public function edit(Post $post)
+//    {
+//        //
+//    }
 
     /**
      * Update the specified resource in storage.
@@ -71,7 +72,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $post->update($request->all());
-        return $post;
+        return sendResponse($post);
     }
 
     /**
@@ -83,6 +84,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return response()->json(["status" => "ok"]);
+        return sendResponse();
     }
 }
