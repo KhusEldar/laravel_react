@@ -10,14 +10,15 @@ use App\Models\User;
    
 class AuthController extends BaseController
 {
-
     public function signin(Request $request)
     {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
-            $authUser = Auth::user(); 
-            $success['token'] =  $authUser->createToken('MyAuthApp')->plainTextToken; 
+            $authUser = Auth::user();
+            $token = $authUser->createToken('MyAuthApp')->plainTextToken;
+            $success['token'] =  $token;
             $success['name'] =  $authUser->name;
-   
+
+            setcookie('AccessToken',$token, time()+config('sanctum.expiration')*60 ,"/",null,false,true);
             return $this->sendResponse($success, 'User signed in');
         } 
         else{ 
@@ -41,9 +42,11 @@ class AuthController extends BaseController
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken('MyAuthApp')->plainTextToken;
+        $token = $user->createToken('MyAuthApp')->plainTextToken;
+        $success['token'] = $token;
         $success['name'] =  $user->name;
-   
+
+        setcookie('AccessToken',$token, time()+config('sanctum.expiration')*60,"/",null,false,true);
         return $this->sendResponse($success, 'User created successfully.');
     }
    

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\API\BaseController;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -15,7 +14,8 @@ class PostController extends BaseController
      */
     public function index()
     {
-        return sendResponse(Post::paginate());
+        $posts = Post::all();
+        return $this->sendResponse($posts);
     }
 
     /**
@@ -37,7 +37,7 @@ class PostController extends BaseController
     public function store(Request $request)
     {
         $data = $request->all();
-        return sendResponse(Post::create($data));
+        return $this->sendResponse(Post::create($data));
     }
 
     /**
@@ -48,7 +48,7 @@ class PostController extends BaseController
      */
     public function show(Post $post)
     {
-        return sendResponse($post);
+        return $this->sendResponse($post);
     }
 
     /**
@@ -72,7 +72,7 @@ class PostController extends BaseController
     public function update(Request $request, Post $post)
     {
         $post->update($request->all());
-        return sendResponse($post);
+        return $this->sendResponse($post);
     }
 
     /**
@@ -84,6 +84,6 @@ class PostController extends BaseController
     public function destroy(Post $post)
     {
         $post->delete();
-        return sendResponse();
+        return $this->sendResponse(null);
     }
 }

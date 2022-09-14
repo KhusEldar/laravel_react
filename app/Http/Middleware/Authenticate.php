@@ -3,9 +3,26 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Http;
 
 class Authenticate extends Middleware
 {
+
+    public function handle(Http\Request $request, \Closure $next)
+    {
+        $token = $request->bearerToken();
+        if(empty($token)){
+            $token = $request->cookie('AccessToken');
+            if(empty($token)){
+                return response()->json(null,401);
+            }
+            $request -> headers->set('Authorization', 'Bearer '.$token);
+        }
+
+        return $next($request);
+    }
+
+
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      *
