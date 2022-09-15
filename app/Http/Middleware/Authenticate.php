@@ -10,14 +10,14 @@ class Authenticate extends Middleware
 
     public function handle(Http\Request $request, \Closure $next)
     {
-//        $token = $request->bearerToken();
-//        if(empty($token)){
-//            $token = $request->cookie('AccessToken');
-//            if(empty($token)){
-//                return response()->json(null,401);
-//            }
-//            $request -> headers->set('Authorization', 'Bearer '.$token);
-//        }
+        $token = $request->bearerToken();
+        if(empty($token)){
+            $token = $request->cookie('AccessToken');
+            if(empty($token)){
+                return response()->json(null,401);
+            }
+            $request -> headers->set('Authorization', 'Bearer '.$token);
+        }
 
         return $next($request);
     }
