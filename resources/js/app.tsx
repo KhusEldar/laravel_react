@@ -1,17 +1,29 @@
 require('./bootstrap');
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { Index } from './'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '../css/app.css'
+import { Layout } from './Components';
+import 'antd/dist/antd.min.css'
+import { AdminPanel, Login } from './Pages';
+import { axiosApi } from './Service';
 
  function Example() {
 
      return (
         <React.StrictMode>
             <BrowserRouter>
-                <Index/>
+                <Routes>
+                  <Route path='/login' element={<Login/>}/>
+                  <Route path='/' element={
+                    <Layout>
+                      <Routes>
+                        <Route path='/admin' element={<AdminPanel/> }/>
+                      </Routes>
+                    </Layout>
+                  } />
+                </Routes>
             </BrowserRouter>
         </React.StrictMode>
      );

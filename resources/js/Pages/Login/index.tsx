@@ -12,8 +12,9 @@ const Login = () => {
         const onLogin = async (e:any) => {
             e.preventDefault();
             const res = await axios.post('http://localhost:8000/api/login',login).then(res => res)
-
-            console.log(res);
+            if(res.status === 200){
+              window.location.href = '/'
+            }
         }
 
     return (

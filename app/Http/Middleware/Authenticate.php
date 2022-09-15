@@ -4,11 +4,13 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http;
+use Closure;
+
 
 class Authenticate extends Middleware
 {
 
-    public function handle(Http\Request $request, \Closure $next)
+    public function handle($request,$next,...$guards)
     {
         $token = $request->bearerToken();
         if(empty($token)){
