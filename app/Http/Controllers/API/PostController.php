@@ -12,10 +12,13 @@ class PostController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::all();
-        return $this->sendResponse($posts);
+        $titleParam = $request->query('title', null);
+        $posts = Post::when($titleParam, function($query) use ($titleParam){
+            return $query->where('title', 'like', '%'.$titleParam.'%');
+        })->select('id', 'title', 'desc')->orderBy('id')->get();
+        return $this->sendResponse($posts->makeHidden(['hidden_path']));
     }
 
     /**
@@ -37,7 +40,11 @@ class PostController extends BaseController
     public function store(Request $request)
     {
         $data = $request->all();
-        return $this->sendResponse(Post::create($data));
+        $post = Post::create($data);
+        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+            $path = $request->photo->storeAs('images/posts', $post->id.'.jpg');
+        }
+        return $this->sendResponse($post);
     }
 
     /**

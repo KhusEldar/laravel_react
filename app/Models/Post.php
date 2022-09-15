@@ -12,4 +12,13 @@ class Post extends Model
     protected $fillable=['title', 'desc'];
 
 //    protected $guarded = [];
+
+    protected $appends=['file_path', 'hidden_path'];
+
+    public  function getFilePathAttribute(){
+        return 'images/posts/'.$this->id.'.jpg';
+    }
+    public  function getHiddenPathAttribute(){
+    return 'hidden/images/posts/'.$this->id.'.jpg';
+}
 }
