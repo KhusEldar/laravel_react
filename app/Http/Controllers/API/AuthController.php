@@ -49,5 +49,9 @@ class AuthController extends BaseController
         setcookie('AccessToken',$token, time()+config('sanctum.expiration')*60,"/",null,false,true);
         return $this->sendResponse($success, 'User created successfully.');
     }
+
+    public function check(){
+        return $this->sendResponse();
+    }
    
 }
