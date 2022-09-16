@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '../css/app.css'
-import { Layout } from './Components';
+import { Layout } from './components';
 import 'antd/dist/antd.min.css'
 import { AdminPanel, Login, Register } from './Pages';
 import { axiosApi } from './Service';
@@ -17,7 +17,7 @@ import { axiosApi } from './Service';
                 <Routes>
                   <Route path='/login' element={<Login/>}/>
                   <Route path='/register' element={<Register/>}/>
-                  <Route path='/' element={
+                  <Route path='*' element={
                     <Layout>
                       <Routes>
                         <Route path='/admin' element={<AdminPanel/> }/>

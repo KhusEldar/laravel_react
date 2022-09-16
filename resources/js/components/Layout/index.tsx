@@ -9,7 +9,7 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     const res = async () => {
-      const asd = await axiosApi.post(`/post`)
+      const asd = await axiosApi.get(`/post`)
 
     }
     res()

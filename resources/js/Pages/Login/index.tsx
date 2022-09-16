@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 type LoginT = {
   password:string,
-  username:string
+  email:string
 }
 
 const Login = () => {
@@ -60,7 +60,7 @@ const Login = () => {
           <Form.Item
             required={true}
             label="Логин:"
-            name="username"
+            name="email"
             rules={[
               { required: true, message: "Пожалуйста, введите ваш логин!" },
             ]}
