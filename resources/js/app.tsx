@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '../css/app.css'
 import { Layout } from './Components';
 import 'antd/dist/antd.min.css'
-import { AdminPanel, Login } from './Pages';
+import { AdminPanel, Login, Register } from './Pages';
 import { axiosApi } from './Service';
 
  function Example() {
@@ -16,6 +16,7 @@ import { axiosApi } from './Service';
             <BrowserRouter>
                 <Routes>
                   <Route path='/login' element={<Login/>}/>
+                  <Route path='/register' element={<Register/>}/>
                   <Route path='/' element={
                     <Layout>
                       <Routes>
