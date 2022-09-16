@@ -23,6 +23,7 @@ Route::post('login', [AuthController::class, 'signin']);
 Route::post('register', [AuthController::class, 'signup']);
      
 Route::middleware('auth:sanctum')->group( function () {
+    Route::get('check', [AuthController::class, 'check']);
     Route::resource('post', PostController::class);
     Route::resource('user', UserController::class);
 });
