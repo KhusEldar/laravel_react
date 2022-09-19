@@ -1,25 +1,45 @@
 import { PostTable } from "./PostTable"
-import {Button, Form, Input, Upload } from "antd";
+import {Button, Form, Input, Upload, UploadProps} from "antd";
 import { postApi } from "../../Service"
 import {useState} from "react";
 
 const AdminPanel = () => {
 
-  const [fileList, setFileList] = useState<any>([]);
+  const [file, setFile] = useState<any>(undefined);
 
   const onFinish = async (e:any) => {
-    const res = await postApi.createPost(e);
+    e.preventDefault();
+    let formData = new FormData(e.target);
+    console.log(formData);
+    const res = await postApi.createPost(formData);
   };
 
-  const handleUpload = ({ fileList }:any) => {
-    console.log('fileList', fileList);
-    setFileList({ fileList });
-  };
+  // const props: UploadProps = {
+  //   onRemove: file => {
+  //     setFile(undefined)
+  //   },
+  //   beforeUpload: file => {
+  //     setFile(file);
+  //     return false;
+  //   }
+  // };
 
+
+  const normFile = (e: any) => {
+    console.log('Upload event:', e);
+    return e?.fileList;
+  };
 
   return (
     <div>
       <PostTable/>
+      <form onSubmit={(e) => onFinish(e)}>
+        <input type="text" name={"title"} required={true}/>
+        <input type="text" name={"desc"} required={true}/>
+        <input type="file" name={"photo[]"} multiple={true} required={true}/>
+        <button>Submit</button>
+      </form>
+      <hr/>
       <Form id={"post_form"}
         className="max-w-[440px] flex flex-col gay-3 p-5"
         name="basic"
@@ -33,7 +53,7 @@ const AdminPanel = () => {
             POST создание
           </div>
           <div className="text-base font-medium text-slate-500">
-            Подготовка к digitalsSkills
+            Подготовка к Digital Skills
           </div>
         </div>
 
@@ -61,18 +81,16 @@ const AdminPanel = () => {
           </Form.Item>
         </div>
         <Form.Item
-          required={true}
-          label="Фото:"
           name="photo"
+          label="Upload"
           valuePropName="fileList"
-          getValueFromEvent={({file}) => file.originFileObj}
+          getValueFromEvent={normFile}
         >
-          <Upload name="logo"
-                  listType="picture"
-                  fileList={fileList}
-                  onChange={handleUpload}
-          >
-            <Button >Click to upload</Button>
+          <Upload name="logo" listType="picture" multiple={false}
+              beforeUpload={
+                () => false
+              }>
+            <Button>Click to upload</Button>
           </Upload>
         </Form.Item>
         <Form.Item>
@@ -84,7 +102,6 @@ const AdminPanel = () => {
             Создать
           </Button>
         </Form.Item>
-
       </Form>
     </div>
   )

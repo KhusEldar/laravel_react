@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Validator;
 
 class PostController extends Controller
 {
@@ -17,7 +18,8 @@ class PostController extends Controller
         $titleParam = $request->query('title', null);
         $posts = Post::when($titleParam, function($query) use ($titleParam){
             return $query->where('title', 'like', '%'.$titleParam.'%');
-        })->select('id', 'title', 'desc')->orderBy('id')->get();
+        })->select('id', 'title', 'desc', 'user_id')->orderBy('id')->with('user')->get();
+
         return $this->sendResponse($posts->makeHidden(['hidden_path']));
     }
 
@@ -40,10 +42,21 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        dd($data);
-        $post = Post::create($data);
-        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
-            $path = $request->photo->storeAs('images/posts', $post->id.'.jpg', 'public');
+        $validator = Validator::make($data, [
+          'title' => 'required',
+          'desc' => 'required',
+          'photo' => 'required'
+        ]);
+        $data['user_id']=1;
+        if($validator->fails()){
+          return $this->sendError('Error validation', $validator->errors());
+        }
+        else{
+          $post = Post::create($data);
+          $files = $request->file('photo');
+          foreach ($files as $key=>$value){
+            $path = $value->storeAs('images/posts', $post->id.'_'.$key.'.jpg', 'public');
+          }
         }
         return $this->sendResponse($post);
     }
