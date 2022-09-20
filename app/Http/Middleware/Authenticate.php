@@ -7,19 +7,19 @@ use Illuminate\Auth\Middleware\Authenticate as Middleware;
 class Authenticate extends Middleware
 {
 
-//    public function handle($request,$next,...$guards)
-//    {
-//        $token = $request->bearerToken();
-//        if(empty($token)){
-//            $token = $request->cookie('AccessToken');
-//            if(empty($token)){
-//                return response()->json(null,401);
-//            }
-//            $request -> headers->set('Authorization', 'Bearer '.$token);
-//        }
-//
-//        return $next($request);
-//    }
+    public function handle($request,$next,...$guards)
+    {
+        $token = $request->bearerToken();
+        if(empty($token)){
+            $token = $request->cookie('AccessToken');
+            if(empty($token)){
+                return response()->json(null,401);
+            }
+            $request -> headers->set('Authorization', 'Bearer '.$token);
+        }
+
+        return $next($request);
+    }
 
 
     /**
